@@ -23,7 +23,6 @@ def add_url(request) -> Response or HttpResponse:
         return HttpResponse('Параметр url обязателен.')
     # Checking url to contain http in it.
     if url[0:4] != 'http':
-        print('adding')
         url = 'https://' + url
 
     link, obj_status = Link.objects.get_or_create(url=url)
