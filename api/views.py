@@ -5,8 +5,7 @@ from rest_framework.decorators import api_view
 
 from api.models import Link, ValidCode
 from api.serializers import CodeSerializer
-from api.code_generator import generate_code
-
+from api.code_generator import checking_codes
 
 
 @api_view(['GET'])
@@ -21,20 +20,24 @@ def add_url(request) -> Response or HttpResponse:
     url = request.data.get('url') or request.GET.get('url')
     # Checking if url parameter was passed in request.
     if not url:
-        return HttpResponse('There is not a url parameter')
+        return HttpResponse('Параметр url обязателен.')
+
     link, obj_status = Link.objects.get_or_create(url=url)
-    generate_code()
+    checking_codes()
+
     # If status create equals False. In other words - if url is in DB.
     if not obj_status:
         serializer = CodeSerializer(data={'code': link.code})
         if serializer.is_valid():
             return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     # Working with new url
     code = ValidCode.objects.all().first()  # Getting a code
     link.code = str(code)  # assign code to url
     link.save()  # saving instance with new code
     code.delete()  # Delete used code from ValidCode table
-    generate_code()  # Creating a new code so storage of Valid Codes would be filled.
+    checking_codes()  # Creating a new code so storage of Valid Codes would be filled.
     serializer = CodeSerializer(data={'code': link.code})
 
     if serializer.is_valid():

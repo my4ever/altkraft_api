@@ -5,17 +5,23 @@ from api.models import UsedCode, ValidCode
 from altkraft_api.settings import NUMBER_OF_VALID_CODE
 
 
-def generate_code() -> None:
+def checking_codes() -> None:
     """
-    Generates 8 digits code.
-    Checks if such code exists in UsedCode.
-    If code uniq adds code into ValidCode table.
+    Checks for buffered table of valid codes to be filled.
+    If code is uniq adds it into UsedCode, ValidCode table.
     Other way repeats the loop.
     """
-    while len(ValidCode.objects.all()) < NUMBER_OF_VALID_CODE:
-        code = ''.join(random.choices(string.digits + string.ascii_letters, k=8))
-        while len(UsedCode.objects.filter(code=code)) != 0:
-            code = ''.join(random.choices(string.digits + string.ascii_letters, k=8))
-        # Adding uniq code into tables ValidCode and UsedCode
+    # Checking for number of valid codes equals to emout set as NUMBER_OF_VALID_CODE.
+    while ValidCode.objects.all().count() < NUMBER_OF_VALID_CODE:
+        code = generate_code()
+        # Checking for existence of generated code in DB.
+        while UsedCode.objects.filter(code=code).count() != 0:
+            code = generate_code()
+        # Adding uniq code into tables ValidCode and UsedCode.
         ValidCode.objects.create(code=code)
         UsedCode.objects.create(code=code)
+
+
+def generate_code() -> str:
+    """Generates 8 digits code."""
+    return ''.join(random.choices(string.digits + string.ascii_letters, k=8))
