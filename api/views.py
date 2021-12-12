@@ -54,7 +54,7 @@ def show_url(request, code) -> redirect or HttpResponse:
     If row does exist, redirects to url.
     If no such code in DB, return html msg.
     """
-    # Checking for code being valid length
+    # Checking for length of the code being correct.
     if len(code) != 8:
         return HttpResponse('Код должен состоять из восьми символов. '
                             f'Код предоставаленный вами - {code} '
