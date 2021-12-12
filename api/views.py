@@ -69,5 +69,5 @@ def show_url(request, code) -> redirect or HttpResponse:
     if link:
         return redirect(link.url)
 
-
-    return HttpResponse(f'{code} этот код не привязан к ссылке.', status=status.HTTP_400_BAD_REQUEST)
+    return HttpResponse(f'{code} этот код не привязан к ссылке.',
+                        status=status.HTTP_400_BAD_REQUEST)
