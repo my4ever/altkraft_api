@@ -25,7 +25,6 @@ def add_url(request) -> Response or HttpResponse:
 
     # Checking url to contain http in it.
     if url[0:4] != 'http':
-        print(url[0:4])
         url = 'https://' + url
 
     link, obj_status = Link.objects.get_or_create(url=url)
