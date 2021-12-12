@@ -57,13 +57,13 @@ def show_url(request, code) -> redirect or HttpResponse:
     # Checking for code being valid length
     if len(code) != 8:
         return HttpResponse('Код должен состоять из восьми символов. '
-                            f'Код предостваленный вами - {code} '
+                            f'Код предоставаленный вами - {code} '
                             f'состит из {len(code)} символов. '
                             'Пожалуйста проверте код.')
 
     link = Link.objects.filter(code=code)
     # Checking for instance in DB with the code
-    if len(link) == 1:
+    if link.count() == 1:
         url = link[0].url
         return redirect(url)
 
