@@ -12,10 +12,11 @@ from api.code_generator import checking_codes
 def add_url(request) -> Response or HttpResponse:
     """
     Checks if url parameter in request dictionary.
+    Checks url to contain http.
     Checks for such url existing in DB.
     If url isn`t uniq returns the code for this url.
     If url is uniq generates the uniq code for this url
-    and add code in DB.
+    and adds code to link instance.
     """
     url = request.data.get('url') or request.GET.get('url')
     # Checking if url parameter was passed in request.
