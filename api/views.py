@@ -7,7 +7,6 @@ from api.models import Link, ValidCode
 from api.serializers import CodeSerializer
 from api.code_generator import generate_code
 
-generate_code()
 
 
 @api_view(['GET'])
@@ -24,6 +23,7 @@ def add_url(request) -> Response or HttpResponse:
     if not url:
         return HttpResponse('There is not a url parameter')
     link, obj_status = Link.objects.get_or_create(url=url)
+    generate_code()
     # If status create equals False. In other words - if url is in DB.
     if not obj_status:
         serializer = CodeSerializer(data={'code': link.code})
