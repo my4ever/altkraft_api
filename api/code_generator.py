@@ -12,13 +12,10 @@ def generate_code() -> None:
     If code uniq adds code into ValidCode table.
     Other way repeats the loop.
     """
-    code = ''.join(random.choices(string.digits + string.ascii_letters, k=8))
-    while len(UsedCode.objects.filter(code=code)) != 0:
+    while len(ValidCode.objects.all()) < NUMBER_OF_VALID_CODE:
         code = ''.join(random.choices(string.digits + string.ascii_letters, k=8))
-    # Adding uniq code into tables ValidCode and UsedCode
-    ValidCode.objects.create(code=code)
-    UsedCode.objects.create(code=code)
-
-
-while len(ValidCode.objects.all()) < NUMBER_OF_VALID_CODE:
-    generate_code()
+        while len(UsedCode.objects.filter(code=code)) != 0:
+            code = ''.join(random.choices(string.digits + string.ascii_letters, k=8))
+        # Adding uniq code into tables ValidCode and UsedCode
+        ValidCode.objects.create(code=code)
+        UsedCode.objects.create(code=code)
