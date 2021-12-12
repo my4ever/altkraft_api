@@ -125,4 +125,4 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Number of valid code stored in DB in case they needed.
-NUMBER_OF_VALID_CODE = 1000
+NUMBER_OF_VALID_CODE = 10
