@@ -23,7 +23,6 @@ def add_url(request) -> Response or HttpResponse:
         return HttpResponse('Параметр url обязателен.')
 
     link, obj_status = Link.objects.get_or_create(url=url)
-    checking_codes()
 
     # If status create equals False. In other words - if url is in DB.
     if not obj_status:
@@ -33,11 +32,11 @@ def add_url(request) -> Response or HttpResponse:
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     # Working with new url
+    checking_codes()
     code = ValidCode.objects.all().first()  # Getting a code
     link.code = str(code)  # assign code to url
     link.save()  # saving instance with new code
     code.delete()  # Delete used code from ValidCode table
-    checking_codes()  # Creating a new code so storage of Valid Codes would be filled.
     serializer = CodeSerializer(data={'code': link.code})
 
     if serializer.is_valid():
