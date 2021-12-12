@@ -2,7 +2,7 @@
 This is a task project for altkraft 
 
 #### Install dependencies run:
-     pip install -m requirements.txt
+     pip install -r requirements.txt
 
 #### If you need more than 10 codes being stored in case of a flow of requests
     On line 128 in altkraft_api.altkraft_api.setting.py 
