@@ -21,9 +21,12 @@ def add_url(request) -> Response or HttpResponse:
     # Checking if url parameter was passed in request.
     if not url:
         return HttpResponse('Параметр url обязателен.')
+    # Checking url to contain http in it.
+    if url[0:4] != 'http':
+        print('adding')
+        url = 'https://' + url
 
     link, obj_status = Link.objects.get_or_create(url=url)
-
     # If obj_status (create) equals False. In other words - if url is in DB.
     if not obj_status:
         serializer = CodeSerializer(data={'code': link.code})
@@ -58,11 +61,13 @@ def show_url(request, code) -> redirect or HttpResponse:
         return HttpResponse('Код должен состоять из восьми символов. '
                             f'Код предоставаленный вами - {code} '
                             f'состит из {len(code)} символов. '
-                            'Пожалуйста проверте код.')
+                            'Пожалуйста проверте код.',
+                            status=status.HTTP_400_BAD_REQUEST)
 
     link = Link.objects.get(code=code)
     # Checking for instance in DB with the code
     if link:
         return redirect(link.url)
 
-    return HttpResponse(f'{code} этот код не привязан к ссылке.')
+
+    return HttpResponse(f'{code} этот код не привязан к ссылке.', status=status.HTTP_400_BAD_REQUEST)
