@@ -12,7 +12,7 @@ def checking_codes() -> None:
     Other way repeats the loop.
     """
     # Checking for number of valid codes equals to emout set as NUMBER_OF_VALID_CODE.
-    while ValidCode.objects.all().count() < NUMBER_OF_VALID_CODE:
+    while ValidCode.objects.all().count() < NUMBER_OF_VALID_CODE + 1:
         code = generate_code()
         # Checking for existence of generated code in DB.
         while UsedCode.objects.filter(code=code).count() != 0:
