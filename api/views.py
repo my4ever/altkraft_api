@@ -61,10 +61,10 @@ def show_url(request, code) -> redirect or HttpResponse:
                             f'состит из {len(code)} символов. '
                             'Пожалуйста проверте код.')
 
-    link = Link.objects.filter(code=code)
+    link = Link.objects.get(code=code)
     # Checking for instance in DB with the code
-    if link.count() == 1:
-        url = link[0].url
+    if link:
+        url = link.url
         return redirect(url)
 
     return HttpResponse(f'{code} этот код не привязан к ссылке.')
