@@ -21,6 +21,7 @@ def add_url(request) -> Response or HttpResponse:
     # Checking if url parameter was passed in request.
     if not url:
         return HttpResponse('Параметр url обязателен.')
+
     # Checking url to contain http in it.
     if url[0:4] != 'http':
         url = 'https://' + url
