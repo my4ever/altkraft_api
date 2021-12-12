@@ -64,7 +64,6 @@ def show_url(request, code) -> redirect or HttpResponse:
     link = Link.objects.get(code=code)
     # Checking for instance in DB with the code
     if link:
-        url = link.url
-        return redirect(url)
+        return redirect(link.url)
 
     return HttpResponse(f'{code} этот код не привязан к ссылке.')
