@@ -20,7 +20,8 @@ def add_url(request) -> Response or HttpResponse:
     url = request.data.get('url') or request.GET.get('url')
     # Checking if url parameter was passed in request.
     if not url:
-        return HttpResponse('Параметр url обязателен.')
+        return HttpResponse('Параметр url обязателен.',
+                            status=status.HTTP_400_BAD_REQUEST)
 
     # Checking url to contain http in it.
     if url[0:4] != 'http':
