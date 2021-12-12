@@ -24,7 +24,7 @@ def add_url(request) -> Response or HttpResponse:
 
     link, obj_status = Link.objects.get_or_create(url=url)
 
-    # If status create equals False. In other words - if url is in DB.
+    # If obj_status (create) equals False. In other words - if url is in DB.
     if not obj_status:
         serializer = CodeSerializer(data={'code': link.code})
         if serializer.is_valid():
